@@ -9,7 +9,7 @@ then
 	# No: init PID file
 	echo "$$" > /tmp/${NAME}.pid
 	# start python file in current shell's context
-	cd ~/luma.examples/examples && ./digital_clock.py > /dev/null
+	cd ~/luma_examples/examples && ./digital_clock.py > /dev/null
 	# at exit, removes the PID file
 	rm -f /tmp/${NAME}.pid
 else

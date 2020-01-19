@@ -31,8 +31,6 @@ def main():
     font = make_font("Arial_Narrow.ttf", 60)
     while True:
         now = datetime.datetime.now()
-        #today_date = now.strftime("%d %b")
-        #today_time = now.strftime("%H:%M:%S")
         today_time = now.strftime("%-H"+ts[i]+"%M")
         if i == 0:
             i=1 
@@ -44,7 +42,6 @@ def main():
             can = canvas(device)
             with can as draw:
                 draw.text((0,0), today_time, font=font, fill="gray")
-                #draw.text((0,32), today_date, font=font, fill="gray")
         time.sleep(0.99)
 
 if __name__ == "__main__":
