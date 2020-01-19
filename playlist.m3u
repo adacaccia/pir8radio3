@@ -1,0 +1,45 @@
+#EXTM3U
+#EXTINF:-1 Radio Suby
+http://onair15.xdevel.com:7936/
+#EXTINF:-1 RTL 102.5
+http://shoutcast.rtl.it:3010/
+#EXTINF:-1 RTL Groove
+http://shoutcast.rtl.it:3040/
+#EXTINF:-1 RTL Radiofreccia
+http://shoutcast.rtl.it:3060/
+#EXTINF:-1 Radio Zeta L’Italiana
+http://shoutcast.rtl.it:3030/stream/1/
+#EXTINF:-1 Radio Kiss Kiss Italia
+http://wma07.fluidstream.net:3616/;stream.nsv
+#EXTINF:-1 Rai Radio 1
+http://icestreaming.rai.it/1.mp3
+#EXTINF:-1 Rai Radio 2
+http://icestreaming.rai.it/2.mp3
+#EXTINF:-1 Rai Radio 3
+http://icestreaming.rai.it/3.mp3
+#EXTINF:-1 Rai Radio 4 Light
+http://icestreaming.rai.it/4.mp3
+#EXTINF:-1 Rai Radio 5 Classica
+http://icestreaming.rai.it/5.mp3
+#EXTINF:-1 Rai Radio 6 Teca
+http://icestreaming.rai.it:80/9.mp3
+#EXTINF:-1 Rai Radio 7 Live
+http://icestreaming.rai.it:80/10.mp3
+#EXTINF:-1 Rai Radio 8 Opera
+http://icestreaming.rai.it:80/11.mp3
+#EXTINF:-1 Rai IsoRadio
+http://icestreaming.rai.it/6.mp3
+#EXTINF:-1 Rai GrParlamento
+http://icestreaming.rai.it/7.mp3
+#EXTINF:-1 Virgin Radio
+http://icecast.unitedradio.it/Virgin.mp3
+#EXTINF:-1 RMC Radio Monte Carlo
+http://icecast.unitedradio.it/RMC.mp3
+#EXTINF:-1 Radio Dolomiti
+http://www.radiodolomiti.com:8068/;?type=http&nocache=401616
+#EXTINF:-1 Radio Puglia
+http://audio1.meway.tv:8108/stream
+#EXTINF:-1 Radio Viva FM
+http://stream2.vivafm.it:8002/stream?type=http&nocache=5056
+#EXTINF:-1 Radio Studio Delta
+http://92.222.155.230:7203/stream?type=http
