@@ -28,10 +28,10 @@ def main():
     today_last_time = "Unknown"
     ts=[ ":", " "]
     i=0
-    font = make_font("Arial Narrow.ttf", 60)
+    font = make_font("Arial_Narrow.ttf", 60)
     while True:
         now = datetime.datetime.now()
-        today_date = now.strftime("%d %b")
+        #today_date = now.strftime("%d %b")
         #today_time = now.strftime("%H:%M:%S")
         today_time = now.strftime("%-H"+ts[i]+"%M")
         if i == 0:

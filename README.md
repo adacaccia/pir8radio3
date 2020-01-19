@@ -37,4 +37,6 @@ scp Arial\ Narrow.ttf pi@pir8radio3:luma.examples/examples/fonts/
 #
 # wm8960-soundcard has got a Button on GPIO#17:
 # (da: https://www.waveshare.com/w/upload/5/54/WM8960_Audio_HAT_User_Manual_EN.pdf)
+sudo apt install python3-gpiozero
+
 
