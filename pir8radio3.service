@@ -15,4 +15,4 @@ StartLimitInterval=350
 StartLimitBurst=10
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
