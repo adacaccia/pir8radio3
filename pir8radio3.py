@@ -74,7 +74,7 @@ def run_clock():
         CLOCK_RUNNING=True
     else:
         # in child: let's do the actual work!
-        subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",check=True)
+        subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
 #
 # Thread-safe initialization
 if __name__ == '__main__':
