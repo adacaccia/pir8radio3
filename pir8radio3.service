@@ -1,0 +1,17 @@
+[Unit]
+Description=AMC Pir8radio 3rd edition software service
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+ExecStart=/home/pi/pir8radio3/pir8radio3.sh
+ExecStop=/usr/bin/killall python
+TimeoutSec=30
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=350
+StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target
