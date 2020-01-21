@@ -1,80 +1,52 @@
 #!/usr/bin/env python3
-import os, signal, subprocess, time
+import os, subprocess, time, vlc
 from signal import pause
 from gpiozero import Button
 from apscheduler.schedulers.background import BackgroundScheduler
 #
 # Global status
-VLC_RUNNING=False
-CLOCK_RUNNING=False
+player=vlc.MediaPlayer('playlist.m3u')
 #
 # proper shutdown button
 def shutdown():
     subprocess.run(['sudo','poweroff'],check=True)
 #
-# check running pid
-def pidof(cmd):
-    cp = subprocess.run(["pidof",cmd],check=True,capture_output=True,text=True)
+# no way of getting PID from pidof() when cmd is like "python digital_clock.py"
+def pidof_python(script):
+    cp = subprocess.run("ps -ux|grep -w python|grep -w",script,"|awk '{print $2}'",check=True,capture_output=True,text=True)
     if cp.returncode:
         return 0
     else:
         return int(cp.stdout)
 #
-# fork/exec vlc
+# start vlc
 def run_vlc():
-    global VLC_RUNNING
-    pid = os.fork()
-    if pid >0:
-        # we're in parent: do nothing
-        VLC_RUNNING=True
-    else:
-        # child process: do the actual work!
-        subprocess.run(["/usr/bin/vlc","-I","dummy","http://onair15.xdevel.com:7936"],check=True,capture_output=True,text=True)
+    global player
+    player.play()
 #
 # music on/off button
 def vlc_toggle():
-    global VLC_RUNNING
-    pid = pidof("vlc")
-    print("Target PID: ", pid)
-    if pid:
-        # Determine wheter it is stopped or not
-        if VLC_RUNNING:
-            os.kill(pid, signal.SIGSTOP)
-            VLC_RUNNING=False
-        else:
-            os.kill(pid, signal.SIGCONT)
-            VLC_RUNNING=True
+    global player
+    if player.is_playing():
+        player.pause()
     else:
-        run_vlc()
-#
-# no way of getting PID from pidof() when cmd is like "python digital_clock.py"
-def pidof_clock():
-    cp = subprocess.run("ps -ux|grep -w python|grep -w digital_clock|awk '{print $2}'",check=True,capture_output=True,text=True)
-    if cp.returncode:
-        return 0
-    else:
-        return int(cp.stdout)
-#
-# verifica se l'orologio è in funzione
-def check_clock():
-    global CLOCK_RUNNING
-    pid = pidof_clock()
-    if pid:
-        # clock is running already --> do nothing
-        CLOCK_RUNNING=True
-    else:
-        run_clock()
+        player.play()
 #
 # esegue l'orologio in modo thread-safe
 def run_clock():
-    global CLOCK_RUNNING
-    pid = os.fork()
+    pid = pidof_python('digital_clock.py')
     if pid:
-        # we're in parent!
-        CLOCK_RUNNING=True
+        # clock is running already --> do nothing
+        pass
     else:
-        # in child: let's do the actual work!
-        subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
+        # need to start it!
+        pid = os.fork()
+        if pid:
+            # we're in parent!
+            pass
+        else:
+            # in child: let's do the actual work!
+            subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
 #
 # Thread-safe initialization
 if __name__ == '__main__':
@@ -90,10 +62,10 @@ if __name__ == '__main__':
     scheduler.start()
     scheduler.add_job(vlc_toggle, trigger='cron', minute=30, hour=6, day_of_week='0-4')
     #
-    # start vlc (reentrant, as it forks)
+    # start vlc 
     run_vlc()
     #
-    # start clock (reentrant, as it forks as well)
+    # start clock
     run_clock()
     #
     # event loop
