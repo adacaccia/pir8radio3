@@ -5,8 +5,8 @@ After=systemd-user-sessions.service
 After=network-online.target
 
 [Service]
-WorkingDirectory=%h/pir8radio3
-ExecStart=%h/pir8radio3/pir8radio3.py
+WorkingDirectory=/home/pi/pir8radio3
+ExecStart=/home/pi/pir8radio3/pir8radio3.py
 ExecStop=/usr/bin/killall python
 TimeoutSec=30
 Restart=on-failure
