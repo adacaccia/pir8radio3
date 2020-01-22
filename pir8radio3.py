@@ -7,9 +7,7 @@ from threading import Thread, ThreadError
 from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
-vlc_instance = Instance('--aout=alsa')
-media = vlc_instance.media_new_path('playlist.m3u')
-vlc_player = media.player_new_from_media()
+vlc_player = Instance('--aout=alsa').media_new_path('playlist.m3u').player_new_from_media()
 #
 # proper shutdown button
 def shutdown():
@@ -27,12 +25,16 @@ def vlc_toggle():
 #    
 # esegue il vero comando di run
 def clock():
-    subprocess.run(['cd','~/luma_examples/examples','&&','./digital_clock.py'],shell=True,check=True)
+    cpc=subprocess.run(['cd','~/luma_examples/examples','&&','./digital_clock.py'],shell=True,check=True,capture_output=True,text=True)
+    if cpc.returncode:
+        print(cpc.stderr)
+    print(cpc.stdout)
 #
 # esegue l'orologio in modo thread-safe
 def run_clock():
     ct=Thread(target=clock,name='ClockT')
     ct.start()
+    print(f'thread del clock={ct.name}-{ct.ident}
 #
 # Thread-safe initialization
 if __name__ == '__main__':
