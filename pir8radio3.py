@@ -23,8 +23,10 @@ def pidof_python(script):
 def vlc_toggle():
     global player
     if player.is_playing():
+        print("pausig vlc")
         player.pause()
     else:
+        print("starting vlc")
         player.play()
 #
 # esegue l'orologio in modo thread-safe
