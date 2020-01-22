@@ -32,13 +32,13 @@ def run_clock():
     pid = pidof_python('digital_clock.py')
     if pid:
         # clock is running already --> do nothing
-        print('clock is running already with pid='+pid)
+        print(f'clock is running already with pid={pid}')
     else:
         # need to start it!
         pid = os.fork()
         if pid:
             # we're in parent!
-            print('starting clock with pid='+pid)
+            print(f'starting clock with pid={pid}')
         else:
             # in child: let's do the actual work!
             subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
