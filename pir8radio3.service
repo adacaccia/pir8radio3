@@ -5,6 +5,7 @@ After=systemd-user-sessions.service
 After=network-online.target
 
 [Service]
+User=pi
 WorkingDirectory=/home/pi/pir8radio3
 ExecStart=/home/pi/pir8radio3/pir8radio3.py
 ExecStop=/usr/bin/killall python
