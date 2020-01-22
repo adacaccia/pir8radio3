@@ -7,7 +7,7 @@ from threading import Thread, ThreadError
 from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
-vlc_player = MediaListPlayer(vlc.Instance('--aout=alsa'))
+vlc_player = MediaListPlayer(Instance('--aout=alsa'))
 vlc_player.set_media_player(MediaPlayer('playlist.m3u'))
 #
 # proper shutdown button
