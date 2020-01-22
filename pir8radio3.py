@@ -5,7 +5,10 @@ from gpiozero import Button
 from apscheduler.schedulers.background import BackgroundScheduler
 #
 # Global status
-player = vlc.Instance('--aout=alsa').media_player_new('playlist.m3u')
+vlc_instance = vlc.Instance('--aout=alsa')
+main_player = vlc_instance.media_player_new('playlist.m3u')
+vlc_player = vlc_instance.media_list_player_new()
+vlc_player.set_media_player(main_player)
 #
 # proper shutdown button
 def shutdown():
@@ -21,13 +24,15 @@ def pidof_python(script):
 #
 # music on/off button
 def vlc_toggle():
-    global player
-    if player.is_playing():
+    global vlc_player
+    print(f'vlc status="{vlc_player.status()}"')
+    print(f'vlc_player="{vlc_player}"')
+    if vlc_player.status():
         print("pausig vlc")
-        player.pause()
+        vlc_player.pause()
     else:
         print("starting vlc")
-        player.play()
+        vlc_player.play()
 #
 # esegue l'orologio in modo thread-safe
 def run_clock():
