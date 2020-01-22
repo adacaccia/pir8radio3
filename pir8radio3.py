@@ -19,11 +19,6 @@ def pidof_python(script):
     else:
         return int(cp.stdout)
 #
-# start vlc
-def run_vlc():
-    global player
-    player.play()
-#
 # music on/off button
 def vlc_toggle():
     global player
@@ -37,13 +32,13 @@ def run_clock():
     pid = pidof_python('digital_clock.py')
     if pid:
         # clock is running already --> do nothing
-        pass
+        print('clock is running already with pid='+pid)
     else:
         # need to start it!
         pid = os.fork()
         if pid:
             # we're in parent!
-            pass
+            print('starting clock with pid='+pid)
         else:
             # in child: let's do the actual work!
             subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
@@ -61,9 +56,6 @@ if __name__ == '__main__':
     scheduler = BackgroundScheduler()
     scheduler.start()
     scheduler.add_job(vlc_toggle, trigger='cron', minute=30, hour=6, day_of_week='0-4')
-    #
-    # start vlc 
-    run_vlc()
     #
     # start clock
     run_clock()
