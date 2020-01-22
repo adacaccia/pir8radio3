@@ -8,8 +8,8 @@ from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
 vlc_instance = Instance('--aout=alsa')
-vlc_player = MediaListPlayer(vlc_instance)
-vlc_player.set_media_player(MediaPlayer(vlc_instance,'playlist.m3u'))
+media = vlc_instance.media_new_path('playlist.m3u')
+vlc_player = media.player_new_from_media()
 #
 # proper shutdown button
 def shutdown():
