@@ -3,6 +3,7 @@ import os, subprocess, time, vlc
 from signal import pause
 from gpiozero import Button
 from apscheduler.schedulers.background import BackgroundScheduler
+from threading import Thread, ThreadError
 #
 # Global status
 vlc_instance = vlc.Instance('--aout=alsa')
@@ -14,18 +15,9 @@ vlc_player.set_media_player(main_player)
 def shutdown():
     subprocess.run(['sudo','poweroff'],check=True)
 #
-# no way of getting PID from pidof() when cmd is like "python digital_clock.py"
-def pidof_python(script):
-    cp = subprocess.run(["ps -ux|grep -w python|grep -w",script,"|awk '{print $2}'"],capture_output=True,text=True,shell=True)
-    if cp.returncode:
-        return 0
-    else:
-        return int(cp.stdout)
-#
 # music on/off button
 def vlc_toggle():
     global vlc_player
-    print(f'vlc status="{vlc_player.status()}"')
     print(f'vlc_player="{vlc_player}"')
     if vlc_player.status():
         print("pausig vlc")
@@ -33,22 +25,15 @@ def vlc_toggle():
     else:
         print("starting vlc")
         vlc_player.play()
+#    
+# esegue il vero comando di run
+def clock():
+    subprocess.run(['cd','~/luma_examples/examples','&&','./digital_clock.py'],shell=True,check=True)
 #
 # esegue l'orologio in modo thread-safe
 def run_clock():
-    pid = pidof_python('digital_clock.py')
-    if pid:
-        # clock is running already --> do nothing
-        print(f'clock is running already with pid={pid}')
-    else:
-        # need to start it!
-        pid = os.fork()
-        if pid:
-            # we're in parent!
-            print(f'starting clock with pid={pid}')
-        else:
-            # in child: let's do the actual work!
-            subprocess.run(['cd','~/luma_examples/examples','&&','./digital_clock.py'],shell=True,check=True)
+    ct=Thread(target=clock,name='ClockT')
+    ct.start()
 #
 # Thread-safe initialization
 if __name__ == '__main__':
