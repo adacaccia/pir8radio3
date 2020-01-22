@@ -34,7 +34,7 @@ def clock():
 def run_clock():
     ct=Thread(target=clock,name='ClockT')
     ct.start()
-    print(f'thread del clock={ct.name}-{ct.ident}
+    print(f'thread del clock={ct.name}-{ct.ident}')
 #
 # Thread-safe initialization
 if __name__ == '__main__':
