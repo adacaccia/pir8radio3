@@ -5,7 +5,7 @@ from gpiozero import Button
 from apscheduler.schedulers.background import BackgroundScheduler
 #
 # Global status
-player=vlc.MediaPlayer('playlist.m3u')
+player = vlc.Instance('--aout=alsa').media_player_new('playlist.m3u')
 #
 # proper shutdown button
 def shutdown():
