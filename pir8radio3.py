@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-import os, subprocess, time, vlc
+import os, subprocess, time
 from signal import pause
 from gpiozero import Button
 from apscheduler.schedulers.background import BackgroundScheduler
 from threading import Thread, ThreadError
+from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
-vlc_instance = vlc.Instance('--aout=alsa')
-main_player = vlc_instance.media_player_new('playlist.m3u')
-vlc_player = vlc_instance.media_list_player_new()
-vlc_player.set_media_player(main_player)
+vlc_player = MediaListPlayer(vlc.Instance('--aout=alsa'))
+vlc_player.set_media_player(MediaPlayer('playlist.m3u'))
 #
 # proper shutdown button
 def shutdown():
@@ -18,8 +17,7 @@ def shutdown():
 # music on/off button
 def vlc_toggle():
     global vlc_player
-    print(f'vlc_player="{vlc_player}"')
-    if vlc_player.status():
+    if vlc_player.is_playing():
         print("pausig vlc")
         vlc_player.pause()
     else:
