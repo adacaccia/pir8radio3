@@ -13,7 +13,7 @@ def shutdown():
 #
 # no way of getting PID from pidof() when cmd is like "python digital_clock.py"
 def pidof_python(script):
-    cp = subprocess.run("ps -ux|grep -w python|grep -w "+script+"|awk '{print $2}'",check=True,capture_output=True,text=True,shell=True)
+    cp = subprocess.run(['ps -ux|grep -w python|grep -w',script,'|awk \'{print $2}\''],check=True,capture_output=True,text=True,shell=True)
     if cp.returncode:
         return 0
     else:
@@ -41,7 +41,7 @@ def run_clock():
             print(f'starting clock with pid={pid}')
         else:
             # in child: let's do the actual work!
-            subprocess.run("cd ~/luma_examples/examples && ./digital_clock.py",shell=True,check=True)
+            subprocess.run(['cd','~/luma_examples/examples','&&','./digital_clock.py'],shell=True,check=True)
 #
 # Thread-safe initialization
 if __name__ == '__main__':
