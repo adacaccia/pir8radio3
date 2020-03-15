@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from gpiozero import Button
 from os import fork
 from signal import pause
-from subprocess import run
+from subprocess import run, PIPE, STDOUT
 from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
@@ -16,11 +16,12 @@ def shutdown():
 #
 # no way of getting PID from pidof() when cmd is like "python digital_clock.py"
 def pidof_python(script):
-    cp = subprocess.run('ps -ux|grep -w python|grep -w '+script+'|awk "{print $2}"',shell=True,check=True,capture_output=True,text=True)
+    cp = subprocess.run('ps -ux|grep -w python|grep -w '+script,shell=True,stdout=PIPE,stderr=STDOUT,text=True)
+    psText=cp.stdout
     if cp.returncode:
         return 0
     else:
-        return int(cp.stdout)
+        return int(psText.split()[1])
 #
 # music on/off button
 def vlc_toggle():
