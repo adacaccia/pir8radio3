@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-import apscheduler, gpiozero, os, signal, subprocess, vlc 
+import apscheduler, gpiozero, os, shlex, signal, subprocess, vlc
 from apscheduler.schedulers.background import BackgroundScheduler
 from gpiozero import Button
 from os import fork
+from shlex import split
 from signal import pause
-from subprocess import run, PIPE, STDOUT
+from subprocess import run, PIPE, STDOUT, Popen
 from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
@@ -16,7 +17,8 @@ def shutdown():
 #
 # no way of getting PID from pidof() when cmd is like "python digital_clock.py"
 def pidof_python(script):
-    cp = subprocess.run('ps -ux|grep -w python|grep -w '+script,shell=True,stdout=PIPE,stderr=STDOUT,text=True)
+    command='ps -ux|grep -w python|grep -w '+script
+    cp = subprocess.Popen(shlex.split(command),shell=False,stdout=PIPE,stderr=STDOUT,text=True)
     psText=cp.stdout
     if cp.returncode:
         return 0
@@ -24,18 +26,43 @@ def pidof_python(script):
         return int(psText.split()[1])
 #
 # music on/off button
+vlc_playing=False
+vlc_process=0
 def vlc_toggle():
-    global vlc_player
-    if vlc_player.is_playing():
-        print("pausig vlc")
-        vlc_player.pause()
+    if vlc_playing:
+        vlc_pause()
     else:
         vlc_play()
 def vlc_play():
-    global vlc_player
+    #global vlc_player
+    global vlc_process,vlc_playing
     print("starting vlc")
-    vlc_player.play()
+    vlc_process.stdin.write('play\n')
+    vlc_playing=True
+def vlc_pause():
+    #global vlc_player
+    global vlc_process,vlc_playing
+    print("pausing vlc")
+    vlc_process.stdin.write('pause\n')
+    vlc_playing=False
 #
+# from: https://www.endpoint.com/blog/2015/01/28/getting-realtime-output-using-python
+def run_command(command):
+    process = subprocess.Popen(shlex.split(command), stdout=PIPE)
+    while True:
+        output = process.stdout.readline()
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip())
+    rc = process.poll()
+    return rc
+def run_vlc():
+    global vlc_process
+    vlc_process=subprocess.Popen('vlc', stdout=PIPE, stdin=PIPE)
+    output = vlc_process.stdout.readline()
+    if output:
+        print(output.strip())
 # esegue l'orologio in modo thread-safe
 def run_clock():
     pid = pidof_python('digital_clock.py')
@@ -71,6 +98,9 @@ if __name__ == '__main__':
     #
     # start clock
     run_clock()
+    #
+    # start VLC
+    run_vlc()
     #
     # event loop
     pause()
