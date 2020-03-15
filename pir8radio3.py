@@ -30,9 +30,10 @@ def vlc_toggle():
         print("pausig vlc")
         vlc_player.pause()
     else:
-        vlc_player.play()
+        vlc_play()
 def vlc_play():
-    global player
+    global vlc_player
+    print("starting vlc")
     vlc_player.play()
 #
 # esegue l'orologio in modo thread-safe
