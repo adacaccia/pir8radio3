@@ -26,7 +26,7 @@ def pidof_python(script):
         return int(cp.stdout.readline().split()[1])
 #
 # music on/off button
-vlc_playing=False
+vlc_playing=True
 vlc_process=0
 def vlc_toggle():
     if vlc_playing:
@@ -37,13 +37,13 @@ def vlc_play():
     #global vlc_player
     global vlc_process,vlc_playing
     print("starting vlc")
-    vlc_process.stdin.write('play\n')
+    vlc_process.stdin.write(b'play\n')
     vlc_playing=True
 def vlc_pause():
     #global vlc_player
     global vlc_process,vlc_playing
     print("pausing vlc")
-    vlc_process.stdin.write('pause\n')
+    vlc_process.stdin.write(b'pause\n')
     vlc_playing=False
 #
 # from: https://www.endpoint.com/blog/2015/01/28/getting-realtime-output-using-python
