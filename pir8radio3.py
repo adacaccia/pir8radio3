@@ -16,7 +16,7 @@ def shutdown():
 #
 # no way of getting PID from pidof() when cmd is like "python digital_clock.py"
 def pidof_python(script):
-    cp = subprocess.run(f'ps -ux|grep -w python|grep -w {script}|awk "{print $2}"',check=True,capture_output=True,text=True)
+    cp = subprocess.run('ps -ux|grep -w python|grep -w '+script+'}|awk "{print $2}"',check=True,capture_output=True,text=True)
     if cp.returncode:
         return 0
     else:
@@ -29,10 +29,10 @@ def vlc_toggle():
         print("pausig vlc")
         vlc_player.pause()
     else:
-        player.play()
+        vlc_player.play()
 def vlc_play():
     global player
-    player.play()
+    vlc_player.play()
 #
 # esegue l'orologio in modo thread-safe
 def run_clock():
