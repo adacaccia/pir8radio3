@@ -59,7 +59,7 @@ def run_command(command):
     return rc
 def run_vlc():
     global vlc_process
-    vlc_process=subprocess.Popen('cvlc playlist.m3u', stdout=PIPE, stdin=PIPE)
+    vlc_process=subprocess.Popen(shlex.split('cvlc playlist.m3u'),shell=False,stdout=PIPE,stdin=PIPE)
     output = vlc_process.stdout.readline()
     if output:
         print(output.strip())
