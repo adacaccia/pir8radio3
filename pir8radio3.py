@@ -18,8 +18,7 @@ def shutdown():
 # no way of getting PID from pidof() when cmd is like "python digital_clock.py"
 def pidof_python(script):
     command='ps -ux|grep -w python|grep -w '+script
-    cp = subprocess.Popen(shlex.split(command),shell=False,stdout=PIPE,stderr=STDOUT,text=True)
-    cp.poll()
+    cp = subprocess.run(shlex.split(command),shell=False,stdout=PIPE,stderr=STDOUT,text=True)
     if cp.returncode:
         return 0
     else:
