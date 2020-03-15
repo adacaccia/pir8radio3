@@ -44,13 +44,13 @@ def vlc_play():
     #global vlc_player
     global vlc_process,vlc_playing
     print("starting vlc")
-    vlc_process.stdin.write(b'play\n')
+    vlc_process.stdin.write(b'playlist.play()\n')
     vlc_playing=True
 def vlc_pause():
     #global vlc_player
     global vlc_process,vlc_playing
     print("pausing vlc")
-    vlc_process.stdin.write(b'pause\n')
+    vlc_process.stdin.write(b'playlist.pause()\n')
     vlc_playing=False
 #
 # from: https://www.endpoint.com/blog/2015/01/28/getting-realtime-output-using-python
