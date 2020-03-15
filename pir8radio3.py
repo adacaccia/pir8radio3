@@ -19,6 +19,7 @@ def shutdown():
 def pidof_python(script):
     command='ps -ux|grep -w python|grep -w '+script
     cp = subprocess.Popen(shlex.split(command),shell=False,stdout=PIPE,stderr=STDOUT,text=True)
+    cp.poll()
     if cp.returncode:
         return 0
     else:
