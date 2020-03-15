@@ -28,7 +28,14 @@ def pidof_python(script):
 # music on/off button
 vlc_playing=True
 vlc_process=0
+def is_vlc_playing():
+    global vlc_process,vlc_playing
+    vlc_process.stdin.write(b'player.is_playing()\n')
+    vlc_status=vlc_process.stdout.readline()
+    print(vlc_status)
+    vlc_playing=True
 def vlc_toggle():
+    is_vlc_playing()
     if vlc_playing:
         vlc_pause()
     else:
