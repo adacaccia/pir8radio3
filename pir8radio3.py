@@ -41,13 +41,13 @@ def vlc_toggle():
     else:
         vlc_play()
 def vlc_play():
-    #global vlc_player
+    is_vlc_playing()
     global vlc_process,vlc_playing
     print("starting vlc")
     vlc_process.stdin.write(b'playlist.play()\n')
     vlc_playing=True
 def vlc_pause():
-    #global vlc_player
+    is_vlc_playing()
     global vlc_process,vlc_playing
     print("pausing vlc")
     vlc_process.stdin.write(b'playlist.pause()\n')
