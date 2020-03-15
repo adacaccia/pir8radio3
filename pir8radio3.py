@@ -22,6 +22,7 @@ def pidof_python(script):
     if cp.returncode:
         return 0
     else:
+        print(cp.stdout.readline())
         return int(cp.stdout.readline().split()[1])
 #
 # music on/off button
