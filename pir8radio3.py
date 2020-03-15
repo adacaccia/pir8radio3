@@ -5,10 +5,10 @@ from gpiozero import Button
 from os import fork
 from signal import pause
 from subprocess import run
-from vlc import MediaPlayer
+from vlc import MediaPlayer, MediaListPlayer, MediaList, Instance
 #
 # Global status
-player=vlc.MediaPlayer('playlist.m3u')
+vlc_player = Instance('--aout=alsa').media_new_path('playlist.m3u').player_new_from_media()
 #
 # proper shutdown button
 def shutdown():
@@ -24,9 +24,10 @@ def pidof_python(script):
 #
 # music on/off button
 def vlc_toggle():
-    global player
-    if player.is_playing():
-        player.pause()
+    global vlc_player
+    if vlc_player.is_playing():
+        print("pausig vlc")
+        vlc_player.pause()
     else:
         player.play()
 def vlc_play():
