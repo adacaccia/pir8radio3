@@ -10,6 +10,8 @@ then
 	echo "$$" > /tmp/${NAME}.pid
 	# start python file in current shell's context
 	cd ~/luma_examples/examples && ./digital_clock.py > /dev/null
+	# nuova riga di comando:
+	# ./digital_clock.py --display ssd1327 --width 128 --height 128 --i2c-address 0x1a
 	# at exit, removes the PID file
 	rm -f /tmp/${NAME}.pid
 else
